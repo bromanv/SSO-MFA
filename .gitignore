@@ -1,0 +1,181 @@
+# ========================================
+# Node.js
+# ========================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.npm
+.yarn-integrity
+*.log
+
+# Dependencias opcionales de npm
+.node_repl_history
+
+# ========================================
+# Variables de Entorno y Secretos
+# ========================================
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+secrets/
+*.secret
+
+# ========================================
+# Docker
+# ========================================
+# Volúmenes de datos (PostgreSQL, etc.)
+postgres_data/
+keycloak_data/
+volumes/
+
+# Docker compose override (configuraciones locales)
+docker-compose.override.yml
+
+# ========================================
+# Logs de Aplicaciones
+# ========================================
+logs/
+*.log
+log/
+npm-debug.log*
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# ========================================
+# Sistema Operativo
+# ========================================
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ========================================
+# IDEs y Editores
+# ========================================
+# Visual Studio Code
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json.example
+*.code-workspace
+
+# JetBrains (IntelliJ, WebStorm, etc.)
+.idea/
+*.iml
+*.iws
+.idea_modules/
+
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+
+# Vim
+*.swp
+*.swo
+*~
+.*.sw[a-p]
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+
+# ========================================
+# Archivos Temporales
+# ========================================
+*.tmp
+*.temp
+*.bak
+*.backup
+*.swp
+*.swo
+.cache/
+tmp/
+temp/
+
+# ========================================
+# Build y Distribución
+# ========================================
+dist/
+build/
+out/
+*.tgz
+*.tar.gz
+
+# ========================================
+# Testing
+# ========================================
+coverage/
+.nyc_output/
+*.coverage
+.coverage
+htmlcov/
+
+# ========================================
+# Keycloak (NO ignorar realm-export.json)
+# ========================================
+# Ignorar exports dinámicos pero mantener el de configuración
+*-realm-export-*.json
+keycloak-export-*.json
+
+# ========================================
+# Certificados y SSL (para desarrollo local)
+# ========================================
+*.crt
+*.cert
+*.cer
+*.der
+*.p12
+*.pfx
+*.key
+certs/
+ssl/
+
+# Excepciones: mantener certificados de ejemplo si existen
+!cert-example.crt
+
+# ========================================
+# Base de Datos
+# ========================================
+*.sqlite
+*.sqlite3
+*.db
+*.sql.backup
+
+# ========================================
+# Otros
+# ========================================
+.eslintcache
+.parcel-cache
+.next/
+.nuxt/
+.vercel
+.serverless/

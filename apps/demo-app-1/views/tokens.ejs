@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tokens - <%= config.appName %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        :root { --app-color: <%= config.appColor %>; }
+        .navbar { background: var(--app-color) !important; }
+        .token-display {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            border-radius: 8px;
+            padding: 15px;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.75rem;
+            word-break: break-all;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .json-display {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            border-radius: 8px;
+            padding: 15px;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.8rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .json-key { color: #9cdcfe; }
+        .json-string { color: #ce9178; }
+        .json-number { color: #b5cea8; }
+        .json-boolean { color: #569cd6; }
+        .token-part-header { color: #ff6b6b; }
+        .token-part-payload { color: #4ecdc4; }
+        .token-part-signature { color: #ffe66d; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <i class="bi bi-shield-lock me-2"></i>
+                <%= config.appName %>
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="btn btn-outline-light btn-sm me-2" href="/dashboard">
+                    <i class="bi bi-arrow-left"></i> Dashboard
+                </a>
+                <a class="btn btn-outline-light btn-sm" href="/logout">
+                    <i class="bi bi-box-arrow-right"></i> Salir
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-4">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="mb-4">
+                    <i class="bi bi-code-slash me-2"></i>
+                    Análisis de Tokens JWT
+                </h2>
+                
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle me-2"></i>
+                    <strong>Propósito educativo:</strong> Esta página muestra los tokens JWT recibidos de Keycloak 
+                    para demostrar cómo funciona la autenticación OIDC. En producción, estos tokens 
+                    nunca deben exponerse al usuario final.
+                </div>
+
+                <!-- Access Token -->
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">
+                            <i class="bi bi-key me-2"></i>
+                            Access Token
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted mb-3">
+                            El Access Token se usa para autorizar peticiones a APIs protegidas. 
+                            Contiene los scopes y permisos del usuario.
+                        </p>
+                        
+                        <h6>Token Raw (JWT):</h6>
+                        <div class="token-display mb-3">
+                            <% if (user.accessToken) { 
+                                const parts = user.accessToken.split('.');
+                            %>
+                                <span class="token-part-header"><%= parts[0] %></span>.<span class="token-part-payload"><%= parts[1] %></span>.<span class="token-part-signature"><%= parts[2] %></span>
+                            <% } else { %>
+                                No disponible
+                            <% } %>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-auto">
+                                <span class="badge bg-danger">Header</span>
+                            </div>
+                            <div class="col-auto">
+                                <span class="badge bg-info">Payload</span>
+                            </div>
+                            <div class="col-auto">
+                                <span class="badge bg-warning text-dark">Signature</span>
+                            </div>
+                        </div>
+
+                        <% if (user.decodedToken) { %>
+                        <h6 class="mt-4">Payload Decodificado:</h6>
+                        <pre class="json-display"><%= JSON.stringify(user.decodedToken, null, 2) %></pre>
+                        <% } %>
+                    </div>
+                </div>
+
+                <!-- ID Token -->
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">
+                            <i class="bi bi-person-badge me-2"></i>
+                            ID Token
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted mb-3">
+                            El ID Token contiene información de identidad del usuario autenticado.
+                            Es específico del protocolo OpenID Connect.
+                        </p>
+                        
+                        <h6>Token Raw (JWT):</h6>
+                        <div class="token-display mb-3">
+                            <% if (user.idToken) { 
+                                const parts = user.idToken.split('.');
+                            %>
+                                <span class="token-part-header"><%= parts[0] %></span>.<span class="token-part-payload"><%= parts[1] %></span>.<span class="token-part-signature"><%= parts[2] %></span>
+                            <% } else { %>
+                                No disponible
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Refresh Token -->
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-header bg-warning">
+                        <h5 class="mb-0">
+                            <i class="bi bi-arrow-repeat me-2"></i>
+                            Refresh Token
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted mb-3">
+                            El Refresh Token se usa para obtener nuevos Access Tokens sin requerir 
+                            que el usuario vuelva a autenticarse.
+                        </p>
+                        
+                        <div class="token-display">
+                            <%= user.refreshToken ? user.refreshToken.substring(0, 100) + '...' : 'No disponible' %>
+                        </div>
+                        <small class="text-muted">
+                            <i class="bi bi-exclamation-triangle me-1"></i>
+                            Truncado por seguridad
+                        </small>
+                    </div>
+                </div>
+
+                <!-- User Profile -->
+                <div class="card shadow-sm">
+                    <div class="card-header bg-dark text-white">
+                        <h5 class="mb-0">
+                            <i class="bi bi-person me-2"></i>
+                            Perfil del Usuario (Claims)
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted mb-3">
+                            Información del usuario extraída de los tokens y el endpoint userinfo.
+                        </p>
+                        
+                        <pre class="json-display"><%= JSON.stringify(user.rawProfile || {}, null, 2) %></pre>
+                    </div>
+                </div>
+
+                <!-- Explicación -->
+                <div class="card mt-4 border-info">
+                    <div class="card-header bg-info text-white">
+                        <i class="bi bi-mortarboard me-2"></i>
+                        Conceptos Clave
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6><i class="bi bi-check-circle text-success me-2"></i>JWT (JSON Web Token)</h6>
+                                <p class="small text-muted">
+                                    Formato estándar para transmitir claims de forma segura. 
+                                    Consta de tres partes: Header, Payload y Signature.
+                                </p>
+                                
+                                <h6><i class="bi bi-check-circle text-success me-2"></i>Claims</h6>
+                                <p class="small text-muted">
+                                    Afirmaciones sobre el usuario (nombre, email, roles, etc.) 
+                                    incluidas en el token.
+                                </p>
+                            </div>
+                            <div class="col-md-6">
+                                <h6><i class="bi bi-check-circle text-success me-2"></i>Firma Digital</h6>
+                                <p class="small text-muted">
+                                    Garantiza que el token no ha sido modificado y fue emitido 
+                                    por el IdP (Keycloak).
+                                </p>
+                                
+                                <h6><i class="bi bi-check-circle text-success me-2"></i>Expiración</h6>
+                                <p class="small text-muted">
+                                    Los tokens tienen tiempo de vida limitado (exp claim) para 
+                                    mejorar la seguridad.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

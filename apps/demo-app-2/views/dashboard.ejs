@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - <%= config.appName %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        :root {
+            --app-color: <%= config.appColor %>;
+        }
+        .navbar { background: var(--app-color) !important; }
+        .sidebar {
+            min-height: calc(100vh - 56px);
+            background: #f8f9fa;
+            border-right: 1px solid #dee2e6;
+        }
+        .sidebar .nav-link {
+            color: #333;
+            border-radius: 0;
+        }
+        .sidebar .nav-link:hover, .sidebar .nav-link.active {
+            background: var(--app-color);
+            color: white;
+        }
+        .user-card {
+            background: linear-gradient(135deg, var(--app-color), color-mix(in srgb, var(--app-color) 70%, black));
+            color: white;
+        }
+        .stat-card {
+            transition: transform 0.2s;
+        }
+        .stat-card:hover {
+            transform: scale(1.02);
+        }
+        .sso-indicator {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <i class="bi bi-shield-lock me-2"></i>
+                <%= config.appName %>
+            </a>
+            <div class="navbar-nav ms-auto">
+                <span class="navbar-text text-white me-3">
+                    <span class="badge bg-success sso-indicator me-2">
+                        <i class="bi bi-broadcast"></i> SSO Activo
+                    </span>
+                    <i class="bi bi-person-circle me-1"></i>
+                    <%= user.displayName || user.username %>
+                </span>
+                <a class="btn btn-outline-light btn-sm" href="/logout">
+                    <i class="bi bi-box-arrow-right"></i> Salir
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-2 sidebar py-3">
+                <nav class="nav flex-column">
+                    <a class="nav-link active" href="/dashboard">
+                        <i class="bi bi-speedometer2 me-2"></i> Dashboard
+                    </a>
+                    <a class="nav-link" href="/profile">
+                        <i class="bi bi-person me-2"></i> Mi Perfil
+                    </a>
+                    <a class="nav-link" href="/tokens">
+                        <i class="bi bi-code-slash me-2"></i> Ver Tokens
+                    </a>
+                    <hr>
+                    <a class="nav-link" href="http://localhost:3002" target="_blank">
+                        <i class="bi bi-box-arrow-up-right me-2"></i> App Reportes
+                        <small class="text-muted d-block">Probar SSO</small>
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-10 py-4">
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="card user-card shadow">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
+                                        <div class="rounded-circle bg-white text-dark d-flex align-items-center justify-content-center" style="width: 80px; height: 80px; font-size: 2rem;">
+                                            <i class="bi bi-person-fill"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <h3 class="mb-1"><%= user.displayName || user.username %></h3>
+                                        <p class="mb-0 opacity-75">
+                                            <i class="bi bi-envelope me-2"></i><%= user.email || 'No disponible' %>
+                                        </p>
+                                        <p class="mb-0 opacity-75">
+                                            <i class="bi bi-shield-check me-2"></i>Autenticado via Keycloak SSO
+                                        </p>
+                                    </div>
+                                    <div class="col-auto">
+                                        <span class="badge bg-light text-dark px-3 py-2">
+                                            <i class="bi bi-check-circle-fill text-success me-1"></i>
+                                            MFA Verificado
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats -->
+                <div class="row g-4 mb-4">
+                    <div class="col-md-3">
+                        <div class="card stat-card shadow-sm border-0">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="rounded-circle bg-primary bg-opacity-10 p-3 me-3">
+                                        <i class="bi bi-key text-primary" style="font-size: 1.5rem;"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="text-muted mb-0">Protocolo</h6>
+                                        <h4 class="mb-0">OIDC</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card stat-card shadow-sm border-0">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="rounded-circle bg-success bg-opacity-10 p-3 me-3">
+                                        <i class="bi bi-shield-lock text-success" style="font-size: 1.5rem;"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="text-muted mb-0">MFA</h6>
+                                        <h4 class="mb-0">TOTP</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card stat-card shadow-sm border-0">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="rounded-circle bg-warning bg-opacity-10 p-3 me-3">
+                                        <i class="bi bi-building text-warning" style="font-size: 1.5rem;"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="text-muted mb-0">Realm</h6>
+                                        <h4 class="mb-0">demo-lab</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card stat-card shadow-sm border-0">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="rounded-circle bg-info bg-opacity-10 p-3 me-3">
+                                        <i class="bi bi-clock-history text-info" style="font-size: 1.5rem;"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="text-muted mb-0">Sesión</h6>
+                                        <h4 class="mb-0">Activa</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Demostración SSO -->
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0">
+                            <i class="bi bi-lightning-charge text-warning me-2"></i>
+                            Demostración SSO
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted">
+                            Al estar autenticado aquí, puedes acceder a otras aplicaciones del ecosistema 
+                            <strong>sin necesidad de volver a iniciar sesión</strong>. Esto es Single Sign-On en acción.
+                        </p>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="card border-primary">
+                                    <div class="card-body">
+                                        <h6><i class="bi bi-app me-2"></i>Sistema de Reportes</h6>
+                                        <p class="small text-muted mb-2">Puerto 3002 - Segunda aplicación del lab</p>
+                                        <a href="http://localhost:3002" target="_blank" class="btn btn-outline-primary btn-sm">
+                                            <i class="bi bi-box-arrow-up-right me-1"></i>
+                                            Abrir (SSO automático)
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card border-secondary">
+                                    <div class="card-body">
+                                        <h6><i class="bi bi-gear me-2"></i>Keycloak Admin</h6>
+                                        <p class="small text-muted mb-2">Consola de administración del IdP</p>
+                                        <a href="http://localhost:8080/admin" target="_blank" class="btn btn-outline-secondary btn-sm">
+                                            <i class="bi bi-box-arrow-up-right me-1"></i>
+                                            Abrir Consola
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Información de sesión -->
+                <div class="card shadow-sm">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0">
+                            <i class="bi bi-info-circle me-2"></i>
+                            Información de Sesión
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped mb-0">
+                            <tbody>
+                                <tr>
+                                    <th style="width: 200px;">Username</th>
+                                    <td><code><%= user.username %></code></td>
+                                </tr>
+                                <tr>
+                                    <th>Email</th>
+                                    <td><code><%= user.email || 'No disponible' %></code></td>
+                                </tr>
+                                <tr>
+                                    <th>Nombre Completo</th>
+                                    <td><%= user.firstName %> <%= user.lastName %></td>
+                                </tr>
+                                <tr>
+                                    <th>ID de Usuario</th>
+                                    <td><code><%= user.id %></code></td>
+                                </tr>
+                                <tr>
+                                    <th>Aplicación Actual</th>
+                                    <td><span class="badge" style="background: <%= config.appColor %>"><%= config.appName %></span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer bg-white">
+                        <a href="/tokens" class="btn btn-sm btn-outline-dark">
+                            <i class="bi bi-code-slash me-1"></i>
+                            Ver Tokens JWT Completos
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
