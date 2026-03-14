@@ -1,133 +1,133 @@
-# 🔐 Laboratorio de Demostración SSO y MFA
+# 🔐 SSO and MFA Demonstration Lab
 
-Un laboratorio completamente funcional para demostrar Single Sign-On (SSO) y Autenticación Multi-Factor (MFA) usando Keycloak como Identity Provider.
+A fully functional laboratory to demonstrate Single Sign-On (SSO) and Multi-Factor Authentication (MFA) using Keycloak as Identity Provider.
 
-## 📋 Componentes
+## 📋 Components
 
-| Componente | Puerto | Descripción |
-|------------|--------|-------------|
+| Component | Port | Description |
+|-----------|------|-------------|
 | **Keycloak** | 8080 | Identity Provider (IdP) |
-| **Portal de Empleados** | 3001 | Aplicación Demo #1 |
-| **Sistema de Reportes** | 3002 | Aplicación Demo #2 |
-| **MailHog** | 8025 | Servidor de correo para pruebas |
-| **PostgreSQL** | 5432 | Base de datos de Keycloak |
+| **Employee Portal** | 3001 | Demo Application #1 |
+| **Reporting System** | 3002 | Demo Application #2 |
+| **MailHog** | 8025 | Test mail server |
+| **PostgreSQL** | 5432 | Keycloak database |
 
-## � Tecnologías de los Portales
+## 🛠 Portal Technologies
 
-Las aplicaciones demo están construidas con un stack moderno de Node.js:
+The demo applications are built with a modern Node.js stack:
 
 ### Backend
-- **Node.js 18+** - Runtime de JavaScript
-- **Express.js 4.18** - Framework web minimalista y flexible
-- **Passport.js 0.7** - Middleware de autenticación
-- **passport-openidconnect 0.1** - Estrategia OIDC para Passport
-- **express-session 1.17** - Manejo de sesiones
-- **axios 1.6** - Cliente HTTP para llamadas a APIs
-- **jsonwebtoken 9.0** - Decodificación y validación de JWT
+- **Node.js 18+** - JavaScript runtime
+- **Express.js 4.18** - Minimalist and flexible web framework
+- **Passport.js 0.7** - Authentication middleware
+- **passport-openidconnect 0.1** - OIDC strategy for Passport
+- **express-session 1.17** - Session management
+- **axios 1.6** - HTTP client for API calls
+- **jsonwebtoken 9.0** - JWT decoding and validation
 
 ### Frontend
-- **EJS 3.1** - Motor de plantillas (Embedded JavaScript)
-- **Bootstrap 5.3** - Framework CSS para UI responsive
-- **Bootstrap Icons 1.11** - Librería de iconos
-- **HTML5 + CSS3** - Markup y estilos modernos
-- **JavaScript ES6+** - Interactividad del cliente
+- **EJS 3.1** - Template engine (Embedded JavaScript)
+- **Bootstrap 5.3** - CSS framework for responsive UI
+- **Bootstrap Icons 1.11** - Icon library
+- **HTML5 + CSS3** - Modern markup and styles
+- **JavaScript ES6+** - Client interactivity
 
-### Características Implementadas
-- ✅ Autenticación OpenID Connect (OIDC)
-- ✅ Manejo de sesiones seguras
-- ✅ Integración con Keycloak
-- ✅ Logout global (SSO Logout)
-- ✅ Visualización de tokens JWT
-- ✅ Protección de rutas
-- ✅ Interfaz responsive
-- ✅ Soporte multi-idioma (ES/EN preparado)
+### Implemented Features
+- ✅ OpenID Connect (OIDC) authentication
+- ✅ Secure session management
+- ✅ Keycloak integration
+- ✅ Global logout (SSO Logout)
+- ✅ JWT token visualization
+- ✅ Route protection
+- ✅ Responsive interface
+- ✅ Multi-language support (ES/EN ready)
 
-## �🚀 Inicio Rápido
+## 🚀 Quick Start
 
-### Requisitos Previos
-- Docker Desktop instalado
+### Prerequisites
+- Docker Desktop installed
 - Docker Compose v2+
-- 4GB de RAM disponible
+- 4GB available RAM
 
-### Pasos de Instalación
+### Installation Steps
 
 ```bash
-# 1. Clonar o navegar al directorio del lab
+# 1. Clone or navigate to the lab directory
 cd sso-mfa-lab
 
-# 2. Iniciar todos los servicios
+# 2. Start all services
 docker-compose up -d
 
-# 3. Esperar a que Keycloak esté listo (1-2 minutos)
+# 3. Wait for Keycloak to be ready (1-2 minutes)
 docker-compose logs -f keycloak
-# Esperar hasta ver: "Running the server"
+# Wait until you see: "Running the server"
 
-# 4. Verificar que todo está corriendo
+# 4. Verify everything is running
 docker-compose ps
 ```
 
-### URLs de Acceso
+### Access URLs
 
-| Servicio | URL | Credenciales |
-|----------|-----|--------------|
+| Service | URL | Credentials |
+|---------|-----|-------------|
 | Keycloak Admin | http://localhost:8080/admin | `admin` / `admin123` |
-| Portal Empleados | http://localhost:3001 | Ver usuarios demo abajo |
-| Sistema Reportes | http://localhost:3002 | Ver usuarios demo abajo |
+| Employee Portal | http://localhost:3001 | See demo users below |
+| Reporting System | http://localhost:3002 | See demo users below |
 | MailHog (emails) | http://localhost:8025 | N/A |
 
-## 👥 Usuarios de Demostración
+## 👥 Demo Users
 
-| Usuario | Contraseña | Roles | Notas |
-|---------|------------|-------|-------|
-| `demo` | `demo123` | user | Usuario estándar |
-| `admin` | `admin123` | user, admin | Usuario administrador |
-| `byron` | `byron123` | user, admin | Usuario personalizado |
+| User | Password | Roles | Notes |
+|------|----------|-------|-------|
+| `demo` | `demo123` | user | Standard user |
+| `admin` | `admin123` | user, admin | Administrator user |
+| `byron` | `byron123` | user, admin | Custom user |
 
-> ⚠️ **Importante**: En el primer login, se solicitará configurar MFA (TOTP). Usa Google Authenticator, Authy, o similar.
+> ⚠️ **Important**: On first login, you will be asked to configure MFA (TOTP). Use Google Authenticator, Authy, or similar.
 
-## 🔄 Flujo de Demostración SSO
+## 🔄 SSO Demonstration Flow
 
-### Escenario 1: Single Sign-On en acción
+### Scenario 1: Single Sign-On in Action
 
-1. **Abrir Portal de Empleados**: http://localhost:3001
-2. **Hacer clic en "Iniciar Sesión"** → Redirige a Keycloak
-3. **Ingresar credenciales**: `demo` / `demo123`
-4. **Configurar MFA**: Escanear QR con tu app authenticator
-5. **Ingresar código TOTP** del authenticator
-6. **Acceso concedido** → Dashboard del Portal
-7. **Ahora abrir Sistema de Reportes**: http://localhost:3002
-8. **Observar**: ¡Acceso automático sin login! Esto es SSO.
+1. **Open Employee Portal**: http://localhost:3001
+2. **Click "Sign In"** → Redirects to Keycloak
+3. **Enter credentials**: `demo` / `demo123`
+4. **Configure MFA**: Scan QR with your authenticator app
+5. **Enter TOTP code** from authenticator
+6. **Access granted** → Portal Dashboard
+7. **Now open Reporting System**: http://localhost:3002
+8. **Observe**: Automatic access without login! This is SSO.
 
-### Escenario 2: Logout Federado
+### Scenario 2: Federated Logout
 
-1. En cualquier aplicación, hacer clic en **"Cerrar Sesión"**
-2. Esto cierra la sesión en **todas** las aplicaciones
-3. Verificar accediendo a la otra app → Requerirá login nuevamente
+1. In any application, click **"Sign Out"**
+2. This closes the session in **all** applications
+3. Verify by accessing the other app → Will require login again
 
-### Escenario 3: Explorar Tokens JWT
+### Scenario 3: Explore JWT Tokens
 
-1. Autenticarse en cualquier app
-2. Ir a **Dashboard → Ver Tokens**
-3. Observar:
-   - Access Token (para APIs)
-   - ID Token (identidad del usuario)
-   - Claims incluidos (nombre, email, roles)
-   - Firma del token
+1. Authenticate in any app
+2. Go to **Dashboard → View Tokens**
+3. Observe:
+   - Access Token (for APIs)
+   - ID Token (user identity)
+   - Included claims (name, email, roles)
+   - Token signature
 
-## 🛠️ Configuración Técnica
+## 🛠️ Technical Configuration
 
-### Protocolo: OpenID Connect (OIDC)
+### Protocol: OpenID Connect (OIDC)
 
 ```
 ┌─────────────┐          ┌─────────────┐          ┌─────────────┐
-│   Usuario   │          │  Keycloak   │          │  Aplicación │
+│   User      │          │  Keycloak   │          │  Application │
 │  (Browser)  │          │    (IdP)    │          │   (Client)  │
 └──────┬──────┘          └──────┬──────┘          └──────┬──────┘
        │                        │                        │
-       │  1. Acceder a App      │                        │
+       │  1. Access App         │                        │
        │───────────────────────────────────────────────▶│
        │                        │                        │
-       │  2. Redirect a Keycloak│                        │
+       │  2. Redirect to Keycloak│                       │
        │◀───────────────────────────────────────────────│
        │                        │                        │
        │  3. Login + MFA        │                        │
@@ -136,7 +136,7 @@ docker-compose ps
        │  4. Authorization Code │                        │
        │◀───────────────────────│                        │
        │                        │                        │
-       │  5. Redirect con code  │                        │
+       │  5. Redirect with code │                        │
        │───────────────────────────────────────────────▶│
        │                        │                        │
        │                        │  6. Exchange code      │
@@ -145,11 +145,11 @@ docker-compose ps
        │                        │  7. Access + ID Token  │
        │                        │───────────────────────▶│
        │                        │                        │
-       │  8. Sesión establecida │                        │
+       │  8. Session established│                        │
        │◀───────────────────────────────────────────────│
 ```
 
-### Estructura de Tokens JWT
+### JWT Token Structure
 
 ```json
 {
@@ -161,45 +161,45 @@ docker-compose ps
   "azp": "app-portal",
   "preferred_username": "demo",
   "email": "demo@example.com",
-  "name": "Usuario Demo",
+  "name": "Demo User",
   "realm_access": {
     "roles": ["user"]
   }
 }
 ```
 
-## 🔒 Configuración MFA (TOTP)
+## 🔒 MFA Configuration (TOTP)
 
-El laboratorio está configurado para **requerir MFA** en el primer login:
+The laboratory is configured to **require MFA** on first login:
 
-1. **Tipo**: TOTP (Time-based One-Time Password)
-2. **Algoritmo**: HMAC-SHA1
-3. **Dígitos**: 6
-4. **Periodo**: 30 segundos
-5. **Apps compatibles**: 
+1. **Type**: TOTP (Time-based One-Time Password)
+2. **Algorithm**: HMAC-SHA1
+3. **Digits**: 6
+4. **Period**: 30 seconds
+5. **Compatible apps**: 
    - Google Authenticator
    - Microsoft Authenticator
    - Authy
    - FreeOTP
 
-## � Configuración Detallada: realm-export.json
+## 📝 Detailed Configuration: realm-export.json
 
-El archivo `realm-export.json` es el corazón de la configuración de Keycloak. Este archivo define completamente el realm "demo-lab" y permite replicar la configuración en cualquier instancia.
+The `realm-export.json` file is the heart of the Keycloak configuration. This file completely defines the "demo-lab" realm and allows replicating the configuration in any instance.
 
-### Estructura y Propósito
+### Structure and Purpose
 
 ```
 keycloak-config/
-└── realm-export.json    # Configuración completa del realm
+└── realm-export.json    # Complete realm configuration
 ```
 
-Este archivo se importa automáticamente al iniciar Keycloak gracias a:
-- El comando `start-dev --import-realm` en Docker
-- El volumen montado: `./keycloak-config/realm-export.json:/opt/keycloak/data/import/realm-export.json`
+This file is automatically imported when starting Keycloak thanks to:
+- The `start-dev --import-realm` command in Docker
+- The mounted volume: `./keycloak-config/realm-export.json:/opt/keycloak/data/import/realm-export.json`
 
-### Configuración del Realm
+### Realm Configuration
 
-#### 1. Información Básica
+#### 1. Basic Information
 ```json
 {
   "id": "demo-lab",
@@ -209,71 +209,71 @@ Este archivo se importa automáticamente al iniciar Keycloak gracias a:
 }
 ```
 
-- **realm**: Identificador único del tenant
-- **displayName**: Nombre mostrado en la UI
-- **enabled**: El realm está activo
+- **realm**: Unique tenant identifier
+- **displayName**: Name shown in the UI
+- **enabled**: The realm is active
 
-#### 2. Configuraciones de Seguridad
+#### 2. Security Settings
 
-**SSL y Acceso:**
+**SSL and Access:**
 ```json
-"sslRequired": "none",              // Permitir HTTP (solo para demo)
-"registrationAllowed": true,        // Permitir auto-registro
-"loginWithEmailAllowed": true,      // Login con email
-"resetPasswordAllowed": true        // Recuperación de contraseña
+"sslRequired": "none",              // Allow HTTP (demo only)
+"registrationAllowed": true,        // Allow self-registration
+"loginWithEmailAllowed": true,      // Login with email
+"resetPasswordAllowed": true        // Password recovery
 ```
 
-**Protección contra Fuerza Bruta:**
+**Brute Force Protection:**
 ```json
-"bruteForceProtected": true,        // Activar protección
-"failureFactor": 5,                 // 5 intentos fallidos
-"maxFailureWaitSeconds": 900,       // 15 min de bloqueo
-"minimumQuickLoginWaitSeconds": 60  // Espera mínima entre intentos
+"bruteForceProtected": true,        // Enable protection
+"failureFactor": 5,                 // 5 failed attempts
+"maxFailureWaitSeconds": 900,       // 15 min lockout
+"minimumQuickLoginWaitSeconds": 60  // Minimum wait between attempts
 ```
 
-#### 3. Configuración de Tokens y Sesiones
+#### 3. Token and Session Configuration
 
-**Tiempos de Vida (en segundos):**
+**Lifespan Times (in seconds):**
 ```json
-"accessTokenLifespan": 300,              // Access Token: 5 minutos
-"accessTokenLifespanForImplicitFlow": 900, // Implicit Flow: 15 minutos
-"ssoSessionIdleTimeout": 1800,           // Sesión idle: 30 minutos
-"ssoSessionMaxLifespan": 36000,          // Sesión máxima: 10 horas
-"accessCodeLifespan": 60,                // Auth Code: 1 minuto
-"accessCodeLifespanLogin": 1800          // Login Code: 30 minutos
+"accessTokenLifespan": 300,              // Access Token: 5 minutes
+"accessTokenLifespanForImplicitFlow": 900, // Implicit Flow: 15 minutes
+"ssoSessionIdleTimeout": 1800,           // Idle session: 30 minutes
+"ssoSessionMaxLifespan": 36000,          // Max session: 10 hours
+"accessCodeLifespan": 60,                // Auth Code: 1 minute
+"accessCodeLifespanLogin": 1800          // Login Code: 30 minutes
 ```
 
-Estos valores controlan cuánto tiempo permanecen válidos los tokens y sesiones antes de requerir renovación.
+These values control how long tokens and sessions remain valid before renewal is required.
 
-#### 4. Política de MFA (OTP/TOTP)
+#### 4. MFA Policy (OTP/TOTP)
 
 ```json
 "otpPolicyType": "totp",           // Time-based OTP
-"otpPolicyAlgorithm": "HmacSHA1",  // Algoritmo de hash
-"otpPolicyDigits": 6,              // Código de 6 dígitos
-"otpPolicyPeriod": 30,             // Renovación cada 30 segundos
-"otpPolicyLookAheadWindow": 1      // Ventana de tolerancia
+"otpPolicyAlgorithm": "HmacSHA1",  // Hash algorithm
+"otpPolicyDigits": 6,              // 6-digit code
+"otpPolicyPeriod": 30,             // Refresh every 30 seconds
+"otpPolicyLookAheadWindow": 1      // Tolerance window
 ```
 
-**Apps Compatibles:**
+**Compatible Apps:**
 - Google Authenticator
 - Microsoft Authenticator  
 - FreeOTP
 
-#### 5. Roles del Realm
+#### 5. Realm Roles
 
 ```json
 "roles": {
   "realm": [
     {
       "name": "user",
-      "description": "Usuario regular",
+      "description": "Regular user",
       "composite": false,
       "clientRole": false
     },
     {
       "name": "admin",
-      "description": "Administrador",
+      "description": "Administrator",
       "composite": false,
       "clientRole": false
     }
@@ -281,23 +281,23 @@ Estos valores controlan cuánto tiempo permanecen válidos los tokens y sesiones
 }
 ```
 
-Los roles controlan permisos y accesos en las aplicaciones.
+Roles control permissions and access in applications.
 
-#### 6. Usuarios Pre-configurados
+#### 6. Preconfigured Users
 
-Cada usuario incluye:
-- **Credenciales**: Contraseña predefinida (password)
-- **Roles**: Asignación de roles de realm
-- **Información personal**: Nombre, apellido, email
-- **Required Actions**: `CONFIGURE_TOTP` fuerza MFA en primer login
+Each user includes:
+- **Credentials**: Predefined password
+- **Roles**: Realm role assignment
+- **Personal information**: First name, last name, email
+- **Required Actions**: `CONFIGURE_TOTP` forces MFA on first login
 
-**Ejemplo de usuario:**
+**User example:**
 ```json
 {
   "username": "demo",
   "enabled": true,
   "emailVerified": true,
-  "firstName": "Usuario",
+  "firstName": "User",
   "lastName": "Demo",
   "email": "demo@example.com",
   "credentials": [{
@@ -310,30 +310,30 @@ Cada usuario incluye:
 }
 ```
 
-#### 7. Clientes (Aplicaciones)
+#### 7. Clients (Applications)
 
-Dos clientes OIDC configurados:
+Two configured OIDC clients:
 
-**app-portal (Puerto 3001):**
+**app-portal (Port 3001):**
 ```json
 {
   "clientId": "app-portal",
-  "name": "Portal de Empleados",
+  "name": "Employee Portal",
   "secret": "portal-secret-123",
   "redirectUris": ["http://localhost:3001/*"],
   "webOrigins": ["http://localhost:3001"],
   "standardFlowEnabled": true,          // Authorization Code Flow
-  "publicClient": false,                // Cliente confidencial
-  "frontchannelLogout": true,           // Soporte logout
+  "publicClient": false,                // Confidential client
+  "frontchannelLogout": true,           // Logout support
   "protocol": "openid-connect"
 }
 ```
 
-**app-reportes (Puerto 3002):**
+**app-reportes (Port 3002):**
 ```json
 {
   "clientId": "app-reportes",
-  "name": "Sistema de Reportes",
+  "name": "Reporting System",
   "secret": "reportes-secret-456",
   "redirectUris": ["http://localhost:3002/*"],
   "webOrigins": ["http://localhost:3002"],
@@ -341,30 +341,30 @@ Dos clientes OIDC configurados:
 }
 ```
 
-**Configuraciones Importantes:**
-- `redirectUris`: URLs permitidas para callback después de login
-- `webOrigins`: URLs permitidas para CORS
-- `frontchannelLogout`: Habilita logout sincronizado (SSO logout)
-- `standardFlowEnabled`: Usa Authorization Code Flow (más seguro)
-- `directAccessGrantsEnabled`: Permite Resource Owner Password Flow (para testing)
+**Important Settings:**
+- `redirectUris`: Allowed URLs for callback after login
+- `webOrigins`: Allowed URLs for CORS
+- `frontchannelLogout`: Enables synchronized logout (SSO logout)
+- `standardFlowEnabled`: Uses Authorization Code Flow (more secure)
+- `directAccessGrantsEnabled`: Allows Resource Owner Password Flow (for testing)
 
-#### 8. Configuración de Correo (SMTP)
+#### 8. Email Configuration (SMTP)
 
 ```json
 "smtpServer": {
-  "host": "mailhog",           // Contenedor de MailHog
-  "port": "1025",              // Puerto SMTP de MailHog
+  "host": "mailhog",           // MailHog container
+  "port": "1025",              // MailHog SMTP port
   "from": "noreply@demo-lab.local",
   "fromDisplayName": "SSO Demo Lab"
 }
 ```
 
-Usado para:
-- ✉️ Verificación de email
-- 🔑 Recuperación de contraseña
-- 📧 Notificaciones de cuenta
+Used for:
+- ✉️ Email verification
+- 🔑 Password recovery
+- 📧 Account notifications
 
-#### 9. Headers de Seguridad
+#### 9. Security Headers
 
 ```json
 "browserSecurityHeaders": {
@@ -377,37 +377,37 @@ Usado para:
 }
 ```
 
-Protecciones contra:
+Protections against:
 - XSS (Cross-Site Scripting)
 - Clickjacking
 - MIME type sniffing
-- Ataques de frame injection
+- Frame injection attacks
 
-#### 10. Acciones Requeridas (Required Actions)
+#### 10. Required Actions
 
 ```json
 "requiredActions": [
   {
-    "alias": "CONFIGURE_TOTP",      // Configurar MFA
+    "alias": "CONFIGURE_TOTP",      // Configure MFA
     "enabled": true,
     "priority": 10
   },
   {
-    "alias": "UPDATE_PASSWORD",      // Actualizar contraseña
+    "alias": "UPDATE_PASSWORD",      // Update password
     "enabled": true,
     "priority": 30
   },
   {
-    "alias": "VERIFY_EMAIL",        // Verificar email
+    "alias": "VERIFY_EMAIL",        // Verify email
     "enabled": true,
     "priority": 50
   }
 ]
 ```
 
-Estas acciones se pueden forzar a usuarios en su próximo login.
+These actions can be forced on users at their next login.
 
-#### 11. Internacionalización
+#### 11. Internationalization
 
 ```json
 "internationalizationEnabled": true,
@@ -415,155 +415,143 @@ Estas acciones se pueden forzar a usuarios en su próximo login.
 "defaultLocale": "es"
 ```
 
-Soporte multiidioma con español como predeterminado.
+Multi-language support with Spanish as default.
 
-### Beneficios del realm-export.json
+### Benefits of realm-export.json
 
-✅ **Reproducibilidad**: Configuración idéntica en cualquier entorno  
-✅ **Versionamiento**: Puede guardarse en Git para control de cambios  
-✅ **Documentación**: Sirve como documentación de la configuración  
-✅ **Despliegue rápido**: Import automático al iniciar Keycloak  
-✅ **Migración fácil**: Mover configuración entre instancias  
-✅ **Backup**: Respaldo completo de la configuración del realm
+✅ **Reproducibility**: Identical configuration in any environment  
+✅ **Versioning**: Can be saved in Git for change control  
+✅ **Documentation**: Serves as configuration documentation  
+✅ **Quick deployment**: Automatic import when starting Keycloak  
+✅ **Easy migration**: Move configuration between instances  
+✅ **Backup**: Complete backup of realm configuration
 
-### Exportar Configuración Actualizada
+### Export Updated Configuration
 
-Si modificas el realm en Keycloak Admin y quieres exportar los cambios:
+If you modify the realm in Keycloak Admin and want to export the changes:
 
 ```bash
-# Opción 1: Desde el contenedor
+# Option 1: From the container
 docker-compose exec keycloak /opt/keycloak/bin/kc.sh export \
   --dir /tmp/export \
   --realm demo-lab \
   --users realm_file
 
-# Opción 2: Desde Keycloak Admin UI
-# Ir a: Realm Settings → Action → Partial Export → Exportar
+# Option 2: From Keycloak Admin UI
+# Go to: Realm Settings → Action → Partial Export → Export
 ```
 
-### Importar en Otra Instancia
+### Import into Another Instance
 
 ```bash
-# Copiar archivo al contenedor
+# Copy file to container
 docker cp realm-export.json keycloak:/tmp/
 
-# Importar
+# Import
 docker-compose exec keycloak /opt/keycloak/bin/kc.sh import \
   --file /tmp/realm-export.json
 ```
 
-## �📊 Comandos Útiles
+## 📊 Useful Commands
 
 ```bash
-# Ver logs de todos los servicios
+# View logs of all services
 docker-compose logs -f
 
-# Ver logs solo de Keycloak
+# View Keycloak logs only
 docker-compose logs -f keycloak
 
-# Reiniciar todo
+# Restart everything
 docker-compose restart
 
-# Detener todo
+# Stop everything
 docker-compose down
 
-# Detener y eliminar volúmenes (reset completo)
+# Stop and remove volumes (complete reset)
 docker-compose down -v
 
-# Reconstruir aplicaciones después de cambios
+# Rebuild applications after changes
 docker-compose up -d --build
 
-# Ver estado de los servicios
+# View service status
 docker-compose ps
 
-# Ejecutar comando en contenedor
+# Execute command in container
 docker-compose exec keycloak /bin/bash
 ```
 
-## 🔧 Personalización
+## 🔧 Customization
 
-### Agregar más aplicaciones
+### Add More Applications
 
-1. Copiar carpeta `apps/demo-app-1` a `apps/nueva-app`
-2. Modificar `docker-compose.yml` agregando nuevo servicio
-3. En Keycloak Admin, crear nuevo Client
-4. Actualizar variables de entorno en docker-compose
+1. Copy folder `apps/demo-app-1` to `apps/new-app`
+2. Modify `docker-compose.yml` adding new service
+3. In Keycloak Admin, create new Client
+4. Update environment variables in docker-compose
 
-### Modificar políticas de MFA
+### Modify MFA Policies
 
-1. Acceder a Keycloak Admin Console
-2. Ir a **Authentication → Flows**
-3. Duplicar "browser" flow
-4. Modificar requerimientos de OTP
-5. Asignar nuevo flow al realm
+1. Access Keycloak Admin Console
+2. Go to **Authentication → Flows**
+3. Duplicate "browser" flow
+4. Modify OTP requirements
+5. Assign new flow to realm
 
-### Agregar proveedores de identidad externos
+### Add External Identity Providers
 
-1. En Keycloak Admin, ir a **Identity Providers**
-2. Agregar Google, Facebook, GitHub, etc.
-3. Configurar credenciales OAuth2
-4. Los usuarios podrán autenticarse con su cuenta externa
+1. In Keycloak Admin, go to **Identity Providers**
+2. Add Google, Facebook, GitHub, etc.
+3. Configure OAuth2 credentials
+4. Users will be able to authenticate with their external account
 
-## 📚 Conceptos Demostrados
+## 📚 Demonstrated Concepts
 
-| Concepto | Descripción |
-|----------|-------------|
-| **SSO** | Un login, acceso a múltiples apps |
-| **MFA/2FA** | Segundo factor con TOTP |
-| **OIDC** | Protocolo de autenticación moderno |
-| **JWT** | Tokens seguros y verificables |
-| **Federation** | Logout sincronizado entre apps |
-| **Claims** | Atributos del usuario en tokens |
-| **Scopes** | Permisos de acceso |
-| **Realm** | Tenant/dominio de seguridad |
+| Concept | Description |
+|---------|-------------|
+| **SSO** | One login, access to multiple apps |
+| **MFA/2FA** | Second factor with TOTP |
+| **OIDC** | Modern authentication protocol |
+| **JWT** | Secure and verifiable tokens |
+| **Federation** | Synchronized logout between apps |
+| **Claims** | User attributes in tokens |
+| **Scopes** | Access permissions |
+| **Realm** | Security tenant/domain |
 
-## ⚠️ Notas de Seguridad
+## ⚠️ Security Notes
 
-Este es un **laboratorio de demostración**. Para producción:
+This is a **demonstration laboratory**. For production:
 
-- [ ] Usar HTTPS con certificados válidos
-- [ ] Cambiar todas las contraseñas y secrets
-- [ ] Configurar políticas de contraseñas robustas
-- [ ] Habilitar auditoría y logging
-- [ ] Usar base de datos externa redundante
-- [ ] Configurar backup de Keycloak
-- [ ] Revisar políticas de sesión
-- [ ] Implementar rate limiting
+- [ ] Use HTTPS with valid certificates
+- [ ] Change all passwords and secrets
+- [ ] Configure robust password policies
+- [ ] Enable auditing and logging
+- [ ] Use external redundant database
+- [ ] Configure Keycloak backup
+- [ ] Review session policies
+- [ ] Implement rate limiting
 
 ## 🆘 Troubleshooting
 
-### Keycloak no inicia
+### Keycloak won't start
 ```bash
-# Verificar que PostgreSQL esté listo
+# Verify PostgreSQL is ready
 docker-compose logs postgres
 
-# Reiniciar Keycloak
+# Restart Keycloak
 docker-compose restart keycloak
 ```
 
-### Error de conexión en apps
+### Connection error in apps
 ```bash
-# Verificar que Keycloak esté completamente iniciado
+# Verify Keycloak is completely started
 curl http://localhost:8080/realms/demo-lab/.well-known/openid-configuration
 ```
 
-### Reset completo
+### Complete reset
 ```bash
 docker-compose down -v
 docker-compose up -d
 ```
 
----
 
-## 📞 Soporte
 
-Creado para demostración de conceptos de SSO y MFA.
-
-**Stack Tecnológico:**
-- Keycloak 23.0
-- Node.js 18
-- Express.js
-- Passport.js (OIDC)
-- Bootstrap 5
-- PostgreSQL 15
-- Docker & Docker Compose
